@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>อย่างนั้น หรือ อย่างนี้</title>
-    <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3ctext x='50' y='75' font-size='80' font-weight='bold' text-anchor='middle' fill='%23FBBF24'%3e?%3c/text%3e%3c/svg%3e">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='75' font-size='80' text-anchor='middle'%3F%3E%E2%9D%8C%3C/text%3E%3C/svg%3E">
+    
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;600;700&display=swap" rel="stylesheet">
+    
     <style>
         body {
             font-family: 'Bai Jamjuree', sans-serif;
@@ -16,23 +21,26 @@
             color: #e0e0e0;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(-45deg, #121212, #1f2937, #172554, #121212);
+            background: linear-gradient(-45deg, #121212, #152937, #172554, #121212);
             background-size: 400% 400%;
             animation: gradientFlow 15s ease infinite;
         }
+
         @keyframes gradientFlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
         body::before {
-            content: '';
+            content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             box-shadow: inset 0 0 150px rgba(0,0,0,0.8);
             pointer-events: none;
             z-index: 99;
         }
+
         .main-container {
             min-height: 100vh;
             display: flex;
@@ -41,14 +49,17 @@
             padding: 1rem;
             position: relative;
             z-index: 100;
-            perspective: 1000px; /* **เพิ่ม:** สำหรับ 3D effect */
+            perspective: 1000px;
         }
+
         .page {
             width: 100%;
             max-width: 600px;
             margin: auto;
             transition: opacity 0.3s ease-in-out;
+            transform-style: preserve-3d; /* สำหรับ 3D effect */
         }
+
         .card-option {
             transition: all 0.3s ease;
             cursor: pointer;
@@ -57,30 +68,38 @@
             position: relative;
             overflow: hidden;
         }
+
         .card-option:hover {
             transform: scale(1.02);
             filter: brightness(1.1);
         }
+
         #option-a:hover {
             box-shadow: 0 0 30px rgba(220, 38, 38, 0.6);
         }
+
         #option-b:hover {
             box-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
         }
+
         .category-button {
             transition: all 0.2s ease-in-out;
             border: 2px solid transparent;
-            animation: glow 3s ease-in-out infinite; /* **เพิ่ม:** animation เรืองแสง */
+            animation: glow 3s ease-in-out infinite;
         }
-        .category-button:hover {
+        
+        /* หยุด animation พื้นฐานตอน hover */
+        .category-button:hover { 
             transform: translateY(-4px);
             border-color: #FBBF24;
-            box-shadow: 0 8px 25px -4px rgba(0,0,0,0.2), 0 0 20px rgba(251, 191, 36, 0.6);
-            animation-play-state: paused; /* หยุด animation พื้นฐานตอน hover */
+            box-shadow: 0 8px 25px 4px rgba(0,0,0,0.2), 0 0 20px rgba(251, 191, 36, 0.6);
+            animation-play-state: paused; 
         }
+
         .or-divider {
             position: absolute;
             top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
             background-color: #111827;
             color: #FBBF24;
             border-radius: 50%;
@@ -95,6 +114,7 @@
             z-index: 20;
             animation: float 3s ease-in-out infinite;
         }
+
         .info-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -107,10 +127,12 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
+
         .info-modal-overlay.visible {
             opacity: 1;
             pointer-events: auto;
         }
+
         .info-modal-content {
             background-color: #1F2937;
             padding: 2rem;
@@ -121,23 +143,28 @@
             transform: scale(0.95);
             transition: transform 0.3s ease;
         }
+        
         .info-modal-overlay.visible .info-modal-content {
             transform: scale(1);
         }
+
         @keyframes zoom-in-select {
             0% { transform: scale(1); }
             50% { transform: scale(1.07); }
             100% { transform: scale(1); }
         }
+
         .zoom-in-effect {
             animation: zoom-in-select 0.5s ease-in-out;
             z-index: 11;
         }
+
         .question-text {
             transition: opacity 0.3s ease;
             position: relative;
             z-index: 10;
         }
+
         .percentage-corner {
             position: absolute;
             top: 0.75rem;
@@ -153,23 +180,28 @@
             transition: opacity 0.4s ease-in-out;
             z-index: 15;
         }
+
         .results-visible .percentage-corner {
             opacity: 1;
         }
-        /* **แก้ไข:** เปลี่ยนเป็นเอฟเฟกต์ Flip 3D */
+        
+        /* เอฟเฟกต์ Flip 3D */
         @keyframes flip-in {
             from { transform: rotateY(-90deg); opacity: 0; }
             to { transform: rotateY(0deg); opacity: 1; }
         }
+
         .flip-in-animation {
             animation: flip-in 0.6s ease-out forwards;
             transform-style: preserve-3d;
         }
+
         @keyframes float {
             0% { transform: translate(-50%, -50%) translateY(0px); }
             50% { transform: translate(-50%, -50%) translateY(-5px); }
             100% { transform: translate(-50%, -50%) translateY(0px); }
         }
+
         #particles-container {
             position: fixed;
             top: 0;
@@ -180,6 +212,7 @@
             overflow: hidden;
             pointer-events: none;
         }
+
         .particle {
             position: absolute;
             bottom: -20px;
@@ -187,18 +220,21 @@
             border-radius: 50%;
             animation: float-up linear infinite;
         }
+
         @keyframes float-up {
             to {
                 transform: translateY(-110vh);
                 opacity: 0;
             }
         }
+
         .dots-loader {
             display: flex;
             gap: 10px;
             align-items: center;
             justify-content: center;
         }
+
         .dots-loader div {
             width: 12px;
             height: 12px;
@@ -206,13 +242,16 @@
             border-radius: 50%;
             animation: pulse-dots 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
         }
+
         .dots-loader div:nth-child(2) { animation-delay: 0.2s; }
         .dots-loader div:nth-child(3) { animation-delay: 0.4s; }
+
         @keyframes pulse-dots {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(0.8); }
         }
-        /* **แก้ไข:** Keyframe สำหรับ Glow */
+
+        /* แก้ไข Keyframe สำหรับ Glow */
         @keyframes glow {
             0% { box-shadow: 0 0 4px rgba(251, 191, 36, 0.2); }
             50% { box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
@@ -221,292 +260,413 @@
     </style>
 </head>
 <body>
-    <div id="particles-container"></div>
 
-    <div class="main-container">
+<div id="particles-container"></div>
 
-        <div id="start-page" class="page text-center">
-            <div class="bg-gray-800 border border-gray-700 p-8 rounded-2xl shadow-xl relative">
-                <button id="info-button" class="absolute top-4 right-4 text-gray-400 hover:text-amber-400 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </button>
-                <h1 class="text-5xl md:text-6xl font-bold text-gray-100 mb-4 leading-tight">
-                    <div class="text-amber-400">อย่างนั้น</div>
-                    <div class="text-3xl md:text-4xl my-2 font-semibold text-gray-400">หรือ</div>
-                    <div class="text-red-500">อย่างนี้</div>
-                </h1>
-                <p class="text-gray-300 mb-8 text-lg">คำถามที่ให้ คำตอบที่เลือก</p>
-                <button id="start-button" class="bg-red-700 text-white font-semibold py-3 px-8 rounded-full text-xl hover:bg-red-800 transition duration-300 shadow-lg">เริ่มเกม!</button>
-            </div>
+<div class="main-container">
+
+    <!-- Start Page -->
+    <div id="start-page" class="page text-center">
+        <div class="bg-gray-800 border border-gray-700 p-8 rounded-2xl shadow-xl relative">
+            <button id="info-button" class="absolute top-4 right-4 text-gray-400 hover:text-amber-400 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </button>
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-100 mb-4 leading-tight">
+                <div class="text-amber-400">อย่างนั้น</div>
+                <div class="text-3xl md:text-4xl my-2 font-semibold text-gray-400">หรือ</div>
+                <div class="text-red-500">อย่างนี้</div>
+            </h1>
+            <p class="text-gray-300 mb-8 text-lg">คำถามที่ให้ คำตอบที่เลือก</p>
+            <button id="start-button" class="bg-red-700 text-white font-semibold py-3 px-8 rounded-full text-xl hover:bg-red-800 transition duration-300 shadow-lg">
+                เริ่มเกม!
+            </button>
         </div>
+    </div>
 
-        <div id="category-page" class="page hidden text-center">
+    <!-- Category Page -->
+    <div id="category-page" class="page hidden text-center">
+        <div class="bg-gray-800 border border-gray-700 p-8 rounded-2xl shadow-xl">
             <h2 class="text-3xl font-bold text-gray-100 mb-8">เลือกหมวดหมู่คำถาม</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-2 gap-6">
+                <!-- ตลก ฮาๆ -->
                 <button class="category-button bg-gray-700 text-amber-400 font-semibold p-6 rounded-2xl shadow-md" data-category="ตลก ฮาๆ เล่นกับเพื่อน">
                     <span class="text-4xl">🤣</span>
                     <span class="block mt-2 text-xl">ตลก ฮาๆ</span>
                 </button>
+                
+                <!-- ความรัก -->
                 <button class="category-button bg-gray-700 text-red-400 font-semibold p-6 rounded-2xl shadow-md" data-category="ความรัก เล่นกับแฟน หรือเพื่อนๆ คำถามเจาะลึกเข้าถึงความรู้สึก">
-                     <span class="text-4xl">💖</span>
+                    <span class="text-4xl">❤️</span>
                     <span class="block mt-2 text-xl">ความรัก</span>
                 </button>
+
+                <!-- โรงเรียน -->
                 <button class="category-button bg-gray-700 text-gray-200 font-semibold p-6 rounded-2xl shadow-md" data-category="โรงเรียน">
-                     <span class="text-4xl">🏫</span>
+                    <span class="text-4xl">📚</span>
                     <span class="block mt-2 text-xl">โรงเรียน</span>
                 </button>
+
+                <!-- ทั่วไป -->
                 <button class="category-button bg-gray-700 text-gray-200 font-semibold p-6 rounded-2xl shadow-md" data-category="ทั่วไป">
-                     <span class="text-4xl">🌐</span>
+                    <span class="text-4xl">🌍</span>
                     <span class="block mt-2 text-xl">ทั่วไป</span>
                 </button>
             </div>
         </div>
-
-        <div id="game-page" class="page hidden w-full">
-             <div class="flex justify-between items-center mb-4">
-                <button id="back-button" class="bg-gray-700 text-gray-200 font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition">
-                    &larr; กลับไปเลือกหมวด
-                </button>
-                 <h2 id="category-title" class="text-xl font-bold text-gray-300"></h2>
-            </div>
-            <div id="question-card" class="relative w-full aspect-[9/12] md:aspect-[16/9] flex flex-col rounded-2xl shadow-2xl overflow-hidden bg-black text-white">
-                <div id="option-a" class="card-option flex-1 bg-red-900 flex items-center justify-center p-8 text-center leading-relaxed">
-                    <span class="question-text"></span>
-                    <div class="percentage-corner"></div>
-                </div>
-                <div class="or-divider">
-                    <span>หรือ</span>
-                </div>
-                <div id="option-b" class="card-option flex-1 bg-amber-600 flex items-center justify-center p-8 text-center leading-relaxed">
-                    <span class="question-text"></span>
-                    <div class="percentage-corner"></div>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <div id="info-modal" class="info-modal-overlay">
-        <div class="info-modal-content text-center">
-            <h3 class="text-2xl font-bold text-amber-400 mb-4">วิธีการเล่น</h3>
-            <p class="text-gray-300 mb-6 text-lg leading-relaxed">
-                เลือกหมวดหมู่ที่ใช่ คำถาม 2 ตัวเลือก <p class="text-gray-300 mb-6 text-lg leading-relaxed"> แล้วเลือกคำตอบที่เป็นคุณ! </p>
-            </p>
-            <button id="close-modal-button" class="bg-gray-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-gray-500 transition">เข้าใจแล้ว</button>
+    <!-- Game Page -->
+    <div id="game-page" class="page hidden w-full">
+        <div class="flex justify-between items-center mb-4">
+            <button id="back-button" class="bg-gray-700 text-gray-200 font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition">
+                &larr; กลับไปเลือกหมวด
+            </button>
+            <h2 id="category-title" class="text-xl font-bold text-gray-300"></h2>
         </div>
-    </div>
-
-    <script>
-        const startPage = document.getElementById('start-page');
-        const categoryPage = document.getElementById('category-page');
-        const gamePage = document.getElementById('game-page');
-        const pages = [startPage, categoryPage, gamePage];
-        const startButton = document.getElementById('start-button');
-        const categoryButtons = document.querySelectorAll('.category-button');
-        const backButton = document.getElementById('back-button');
-        const optionA = document.getElementById('option-a');
-        const optionB = document.getElementById('option-b');
-        const questionCard = document.getElementById('question-card');
-        const categoryTitle = document.getElementById('category-title');
-        let currentCategory = 'AIzaSyCn1OcIoLnepxRO3aH70QeElst0ydlp9To';
-        const apiKey = "AIzaSyBPk1PrkNkvrtvbpvdNtJuR7DCvA67St4o"; 
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
         
-        const infoButton = document.getElementById('info-button');
-        const infoModal = document.getElementById('info-modal');
-        const closeModalButton = document.getElementById('close-modal-button');
+        <div id="question-card" class="relative w-full aspect-[9/12] md:aspect-[16/9] flex flex-col rounded-2xl shadow-2xl overflow-hidden bg-black text-white">
 
-        const optionAText = document.querySelector('#option-a .question-text');
-        const optionBText = document.querySelector('#option-b .question-text');
-        const optionACorner = document.querySelector('#option-a .percentage-corner');
-        const optionBCorner = document.querySelector('#option-b .percentage-corner');
+            <!-- Option A (Red) -->
+            <div id="option-a" class="card-option flex-1 bg-red-900 flex items-center justify-center p-8 text-center leading-relaxed">
+                <span class="question-text"></span>
+                <div class="percentage-corner"></div>
+            </div>
 
-        const defaultSystemPrompt = `คุณคือ AI ผู้เชี่ยวชาญการสร้างคำถามเกม 'เลือกสิ่งนั้นหรือสิ่งนี้' ในภาษาไทย กฎคือ คำถามต้องสั้น กระชับ และปรับตามหมวดหมู่ ถ้าเป็น 'ตลก' ให้แปลกประหลาด ถ้าเป็นหมวดหมู่อื่นๆ ให้สร้างสถานการณ์ที่น่าสนใจและเกี่ยวข้องกับหมวดหมู่นั้นๆ`;
-        const loveSystemPrompt = `คุณคือ AI นักเขียนบทละครผู้เชี่ยวชาญด้านความสัมพันธ์ที่ซับซ้อน คุณต้องสร้างคำถาม 'เลือกสิ่งนั้นหรือสิ่งนี้' สำหรับหมวด 'ความรัก'
-        - **เป้าหมายสูงสุด:** สร้างคำถามที่ **บีบคั้นหัวใจ อ่อนไหว และยากที่จะเลือก**
-        - **แก่นของคำถาม:** ต้องเจาะจงไปที่ **ความรู้สึก** ไม่ใช่แค่สถานการณ์ธรรมดา
-        - **แนวทาง:**
-          - **การเสียสละ:** เลือกระหว่างความสุขของตัวเองกับความสุขของคนรัก
-          - **อดีต vs อนาคต:** เลือกระหว่างการยึดติดกับความทรงจำดีๆ หรือการก้าวไปข้างหน้ากับสิ่งที่ไม่แน่นอน
-          - **ความจริงที่เจ็บปวด vs คำโกหกที่ปลอบโยน:** เลือกว่าจะรับรู้ความจริงที่ทำร้ายจิตใจ หรืออยู่ในความสัมพันธ์ที่ไม่จริงใจแต่มีความสุข
-          - **ความไว้ใจ:** สร้างสถานการณ์ที่ทดสอบความเชื่อใจในตัวคนรัก
-        - **กฎ:** คำถามต้อง **สั้นและกระชับ** แต่ยังคงความลึกซึ้งทางอารมณ์ไว้`;
+            <!-- OR Divider -->
+            <div class="or-divider">
+                <span>หรือ</span>
+            </div>
+            
+            <!-- Option B (Amber) -->
+            <div id="option-b" class="card-option flex-1 bg-amber-600 flex items-center justify-center p-8 text-center leading-relaxed">
+                <span class="question-text"></span>
+                <div class="percentage-corner"></div>
+            </div>
 
-        async function generateQuestion(category) {
-            showLoadingState();
-            const userPrompt = `สร้างคำถาม 1 ข้อสำหรับหมวดหมู่: "${category}"`;
-            const selectedSystemPrompt = category.includes("ความรัก") ? loveSystemPrompt : defaultSystemPrompt;
-            const payload = {
-                contents: [{ parts: [{ text: userPrompt }] }],
-                systemInstruction: { parts: [{ text: selectedSystemPrompt }] },
-                generationConfig: {
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: "OBJECT",
-                        properties: {
-                            optionA: { type: "STRING", description: "ตัวเลือกแรก" },
-                            optionB: { type: "STRING", description: "ตัวเลือกที่สอง" }
-                        },
-                        required: ["optionA", "optionB"]
-                    }
-                }
-            };
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (!response.ok) throw new Error(`API error: ${response.status}`);
-                const result = await response.json();
-                const candidate = result.candidates?.[0];
-                if (candidate?.content?.parts?.[0]?.text) {
-                    const questionData = JSON.parse(candidate.content.parts[0].text);
+        </div>
+    </div>
+
+</div>
+
+<!-- Info Modal -->
+<div id="info-modal" class="info-modal-overlay">
+    <div class="info-modal-content text-center">
+        <h3 class="text-2xl font-bold text-amber-400 mb-4">วิธีการเล่น</h3>
+        <p class="text-gray-300 mb-6 text-lg leading-relaxed">
+            เลือกหมวดหมู่ที่ใช่ แล้วเลือกคำตอบที่เป็นคุณ!
+        </p>
+        <button id="close-modal-button" class="bg-gray-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-gray-500 transition">
+            เข้าใจแล้ว
+        </button>
+    </div>
+</div>
+
+<script>
+    // Constants and DOM Elements
+    const startPage = document.getElementById('start-page');
+    const categoryPage = document.getElementById('category-page');
+    const gamePage = document.getElementById('game-page');
+    const pages = [startPage, categoryPage, gamePage];
+
+    const startButton = document.getElementById('start-button');
+    const categoryButtons = document.querySelectorAll('.category-button');
+    const backButton = document.getElementById('back-button');
+    
+    // DOM references for options
+    const optionA = document.getElementById('option-a');
+    const optionB = document.getElementById('option-b');
+    
+    const questionCard = document.getElementById('question-card');
+    const categoryTitle = document.getElementById('category-title');
+    
+    const infoButton = document.getElementById('info-button');
+    const infoModal = document.getElementById('info-modal');
+    const closeModalButton = document.getElementById('close-modal-button');
+    
+    const optionAText = document.querySelector('#option-a .question-text');
+    const optionBText = document.querySelector('#option-b .question-text');
+    const optionACorner = document.querySelector('#option-a .percentage-corner');
+    const optionBCorner = document.querySelector('#option-b .percentage-corner');
+
+    // State
+    let currentCategory = ""; 
+    
+    // =========================================================================
+    // AI/API Configuration
+    // =========================================================================
+    
+    // **สำคัญ**: ต้องเป็นสตริงว่างเพื่อให้ Canvas Environment จัดการ API Key ให้
+    const apiKey = "AIzaSyD6w-YOPj_SmfnOx4Y-ymLq1zKPIvwlTAo"; 
+    
+    // เปลี่ยนจาก Template Literal (``) เป็นการต่อสตริง ('')
+    const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=' + apiKey;
+
+    const defaultSystemPrompt = `คุณคือ AI ผู้เชี่ยวชาญการสร้างคำถามเกม "เลือกสิ่งนั้นหรือสิ่งนี้" ในภาษาไทย
+กฎ: คำถามต้องสั้น กระชับ และปรับตามหมวดหมู่ ถ้าเป็น 'ตลก' ให้แปลกประหลาด ถ้าเป็นหมวดหมู่อื่นๆ ให้สร้างสถานการณ์ที่น่าสนใจและเกี่ยวข้องกับหมวดหมู่นั้นๆ`;
+
+    const loveSystemPrompt = `คุณคือ AI นักเขียนบทละครผู้เชี่ยวชาญด้านความสัมพันธ์ที่ซับซ้อน สร้างคำถาม 'เลือกสิ่งนั้นหรือสิ่งนี้' สำหรับหมวด "ความรัก" 
+เป้าหมายคือการสร้างสถานการณ์ที่บีบคั้นหัวใจ, เจาะลึกความรู้สึก, และยากต่อการตัดสินใจ 
+กฎ: คำถามต้องสั้นและกระชับ แต่ยังคงความลึกซึ้งทางอารมณ์ไว้`;
+
+    /**
+     * สร้างคำถามแบบมีตัวเลือกสองข้อจาก Gemini API
+     * @param {string} category - หมวดหมู่คำถามที่ผู้ใช้เลือก
+     */
+    async function generateQuestion(category) {
+        showLoadingState();
+
+        // เปลี่ยนจาก Template Literal (``) เป็นการต่อสตริง ('')
+        const userPrompt = 'สร้างคำถาม 1 ข้อสำหรับหมวดหมู่: "' + category + '"';
+        
+        // เลือก System Prompt ตามหมวดหมู่
+        const selectedSystemPrompt = category.includes("ความรัก") ? loveSystemPrompt : defaultSystemPrompt;
+
+        // โครงสร้าง JSON Schema ที่ถูกต้อง
+        const responseSchema = {
+            type: "OBJECT",
+            properties: {
+                question: { type: "STRING", description: "ประโยคคำถามหลัก" },
+                optionA: { type: "STRING", description: "ตัวเลือกแรก" },
+                optionB: { type: "STRING", description: "ตัวเลือกที่สอง" }
+            },
+            required: ["question", "optionA", "optionB"]
+        };
+
+        // โครงสร้าง Payload สำหรับ API Call ที่ถูกต้อง
+        const payload = {
+            contents: [{ parts: [{ text: userPrompt }] }],
+            systemInstruction: { parts: [{ text: selectedSystemPrompt }] },
+            generationConfig: {
+                responseMimeType: "application/json",
+                responseSchema: responseSchema
+            }
+        };
+
+        try {
+            // ใช้ apiUrl ที่แก้ไขแล้ว
+            const response = await fetch(apiUrl, { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error('API error: ' + response.status);
+
+            const result = await response.json();
+            const candidate = result.candidates?.[0];
+
+            if (candidate?.content?.parts?.[0]?.text) {
+                const jsonText = candidate.content.parts[0].text.trim();
+                const questionData = JSON.parse(jsonText);
+                
+                // ตรวจสอบว่ามีข้อมูลที่จำเป็นครบถ้วนหรือไม่
+                if (questionData.optionA && questionData.optionB) {
                     displayQuestion(questionData.optionA, questionData.optionB);
                 } else {
-                    throw new Error("Invalid response structure from API.");
+                    // หากโมเดลไม่ได้ให้ JSON ที่สมบูรณ์ เราจะแสดงข้อความหลักของโมเดลแทน
+                    const fallbackText = questionData.question || "ไม่สามารถสร้างคำถามที่ถูกต้องได้";
+                    displayQuestion(fallbackText, "ลองเลือกอีกครั้ง");
+                    console.warn("API returned incomplete JSON. Using fallback display.", questionData);
                 }
-            } catch (error) {
-                console.error("Error fetching question:", error);
-                displayErrorState("เกิดข้อผิดพลาดในการสร้างคำถาม ลองอีกครั้งนะคะ");
+            } else {
+                throw new Error("Invalid response structure from API. Missing content.");
             }
+
+        } catch (error) {
+            console.error("Error fetching question:", error);
+            displayErrorState("เกิดข้อผิดพลาดในการสร้างคำถาม ลองอีกครั้งนะคะ");
         }
-        
-        function showPage(pageId) {
-            const nextPage = document.getElementById(pageId);
-            let currentPage = null;
-            pages.forEach(p => {
-                if (p.style.display === 'block') { currentPage = p; }
-            });
-            if (currentPage && currentPage.id !== pageId) {
-                currentPage.style.opacity = 0;
-                setTimeout(() => {
-                    currentPage.style.display = 'none';
-                    nextPage.style.display = 'block';
-                    nextPage.style.opacity = 0;
-                    setTimeout(() => { nextPage.style.opacity = 1; }, 20);
-                }, 300);
-            } else if (!currentPage) {
-                nextPage.style.display = 'block';
-                nextPage.style.opacity = 1;
+    }
+    
+    // =========================================================================
+    // UI Logic
+    // =========================================================================
+
+    function showPage(pageId) {
+        const nextPage = document.getElementById(pageId);
+        let currentPage = null;
+
+        pages.forEach(p => {
+            if (p.style.display === 'block') {
+                currentPage = p;
             }
-        }
-
-        function displayQuestion(textA, textB) {
-            optionAText.textContent = textA;
-            optionBText.textContent = textB;
-
-            const characterThreshold = 50;
-            [optionA, optionB].forEach((opt, index) => {
-                const text = index === 0 ? textA : textB;
-                opt.classList.remove('text-xl', 'md:text-2xl', 'text-2xl', 'md:text-3xl');
-                if (text.length > characterThreshold) {
-                    opt.classList.add('text-xl', 'md:text-2xl');
-                } else {
-                    opt.classList.add('text-2xl', 'md:text-3xl');
-                }
-            });
-
-            optionA.classList.remove('results-visible');
-            optionB.classList.remove('results-visible');
-            optionA.classList.remove('pointer-events-none');
-            optionB.classList.remove('pointer-events-none');
-        }
-        
-        function showLoadingState() {
-            optionAText.innerHTML = '<div class="dots-loader"><div></div><div></div><div></div></div>';
-            optionBText.innerHTML = '';
-            optionA.classList.remove('results-visible');
-            optionB.classList.remove('results-visible');
-            optionA.classList.add('pointer-events-none');
-            optionB.classList.add('pointer-events-none');
-        }
-
-        function displayErrorState(message) {
-            optionAText.innerHTML = `<div class="text-center">${message}<br/><button id="retry-button" class="mt-4 bg-gray-600 text-white font-semibold py-2 px-4 rounded">ลองใหม่</button></div>`;
-            optionBText.innerHTML = '';
-            document.getElementById('retry-button').addEventListener('click', () => {
-                generateQuestion(currentCategory);
-            });
-        }
-
-        startButton.addEventListener('click', () => showPage('category-page'));
-        categoryButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                currentCategory = button.dataset.category;
-                const categoryShortName = button.querySelector('.text-xl').innerText;
-                categoryTitle.innerText = `หมวดหมู่: ${categoryShortName}`;
-                showPage('game-page');
-                questionCard.classList.remove('flip-in-animation');
-                void questionCard.offsetWidth;
-                questionCard.classList.add('flip-in-animation');
-                generateQuestion(currentCategory);
-            });
         });
-        backButton.addEventListener('click', () => showPage('category-page'));
-        
-        function handleOptionClick(event) {
-            const clickedOption = event.currentTarget;
-            optionA.classList.add('pointer-events-none');
-            optionB.classList.add('pointer-events-none');
-            clickedOption.classList.add('zoom-in-effect');
-            const percentA = Math.floor(Math.random() * 61) + 20;
-            const percentB = 100 - percentA;
-            optionACorner.textContent = `${percentA}%`;
-            optionBCorner.textContent = `${percentB}%`;
-            optionA.classList.add('results-visible');
-            optionB.classList.add('results-visible');
+
+        if (currentPage && currentPage.id !== pageId) {
+            currentPage.style.opacity = '0';
             setTimeout(() => {
-                clickedOption.classList.remove('zoom-in-effect');
-                generateQuestion(currentCategory);
-            }, 2500);
+                currentPage.style.display = 'none';
+                nextPage.style.display = 'block';
+                nextPage.style.opacity = '0';
+                setTimeout(() => {
+                    nextPage.style.opacity = '1';
+                }, 20);
+            }, 300);
+        } else if (!currentPage) {
+            nextPage.style.display = 'block';
+            nextPage.style.opacity = '1';
         }
+    }
 
-        optionA.addEventListener('click', handleOptionClick);
-        optionB.addEventListener('click', handleOptionClick);
+    function displayQuestion(textA, textB) {
+        optionAText.textContent = textA;
+        optionBText.textContent = textB;
+
+        const characterThreshold = 50;
         
-        infoButton.addEventListener('click', () => {
-            infoModal.classList.add('visible');
+        // จัดการขนาดตัวอักษรตามความยาวของคำถาม
+        [
+            { element: optionA, text: textA },
+            { element: optionB, text: textB }
+        ].forEach((item) => {
+            item.element.classList.remove('text-xl', 'md:text-2xl', 'text-2xl', 'md:text-3xl');
+            if (item.text.length > characterThreshold) {
+                item.element.classList.add('text-xl', 'md:text-2xl');
+            } else {
+                item.element.classList.add('text-2xl', 'md:text-3xl');
+            }
         });
-        closeModalButton.addEventListener('click', () => {
+
+        optionA.classList.remove('results-visible');
+        optionB.classList.remove('results-visible');
+        optionA.classList.remove('pointer-events-none');
+        optionB.classList.remove('pointer-events-none');
+    }
+
+    function showLoadingState() {
+        // แสดง loading dots
+        optionAText.innerHTML = '<div class="dots-loader"><div></div><div></div><div></div></div>';
+        optionBText.innerHTML = '<div class="dots-loader"><div></div><div></div><div></div></div>';
+
+        optionA.classList.remove('results-visible');
+        optionB.classList.remove('results-visible');
+        optionA.classList.add('pointer-events-none');
+        optionB.classList.add('pointer-events-none');
+    }
+
+    function displayErrorState(message) {
+        // เปลี่ยนจาก Template Literal (``) เป็นการต่อสตริง ('')
+        optionAText.innerHTML = '<div class="text-center">' + message + '<br/><button id="retry-button" class="mt-4 bg-gray-600 text-white font-semibold py-2 px-4 rounded" >ลองอีกครั้ง</button></div>';
+        optionBText.innerHTML = ""; // เคลียร์ตัวเลือก B
+
+        document.getElementById('retry-button').addEventListener('click', () => {
+            generateQuestion(currentCategory);
+        });
+    }
+
+    // =========================================================================
+    // Event Listeners
+    // =========================================================================
+
+    startButton.addEventListener('click', () => showPage('category-page'));
+
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            currentCategory = button.dataset.category;
+            const categoryShortName = button.querySelector('.text-xl').innerText;
+            // เปลี่ยนจาก Template Literal (``) เป็นการต่อสตริง ('')
+            categoryTitle.innerText = 'หมวดหมู่: ' + categoryShortName;
+            
+            showPage('game-page');
+
+            // ใช้ flip-in-animation ใหม่ทุกครั้งที่เปลี่ยนคำถาม
+            questionCard.classList.remove('flip-in-animation');
+            void questionCard.offsetWidth; // Force reflow
+            questionCard.classList.add('flip-in-animation');
+
+            generateQuestion(currentCategory);
+        });
+    });
+
+    backButton.addEventListener('click', () => showPage('category-page'));
+
+    function handleOptionClick(event) {
+        const clickedOption = event.currentTarget;
+        
+        // ปิดการโต้ตอบจนกว่าจะโหลดคำถามใหม่
+        optionA.classList.add('pointer-events-none');
+        optionB.classList.add('pointer-events-none');
+        
+        clickedOption.classList.add('zoom-in-effect');
+
+        // แสดงผลลัพธ์ (สุ่มเปอร์เซ็นต์)
+        const percentA = Math.floor(Math.random() * 61) + 20; // 20% - 80%
+        const percentB = 100 - percentA;
+
+        // เปลี่ยนจาก Template Literal (``) เป็นการต่อสตริง ('')
+        optionACorner.textContent = percentA + '%';
+        optionBCorner.textContent = percentB + '%';
+
+        optionA.classList.add('results-visible');
+        optionB.classList.add('results-visible');
+
+        // รอ 2.5 วินาที ก่อนจะโหลดคำถามใหม่
+        setTimeout(() => {
+            clickedOption.classList.remove('zoom-in-effect');
+            generateQuestion(currentCategory);
+        }, 2500);
+    }
+
+    optionA.addEventListener('click', handleOptionClick);
+    optionB.addEventListener('click', handleOptionClick);
+
+    infoButton.addEventListener('click', () => {
+        infoModal.classList.add('visible');
+    });
+
+    closeModalButton.addEventListener('click', () => {
+        infoModal.classList.remove('visible');
+    });
+
+    infoModal.addEventListener('click', (event) => {
+        if (event.target === infoModal) {
             infoModal.classList.remove('visible');
-        });
-        infoModal.addEventListener('click', (event) => {
-            if (event.target === infoModal) {
-                infoModal.classList.remove('visible');
-            }
-        });
-
-        function createParticles() {
-            const container = document.getElementById('particles-container');
-            if (!container) return;
-            const particleCount = 50;
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                const size = Math.random() * 5 + 1;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${Math.random() * 100}%`;
-                const duration = Math.random() * 10 + 10;
-                particle.style.animationDuration = `${duration}s`;
-                const delay = Math.random() * 10;
-                particle.style.animationDelay = `${delay}s`;
-                container.appendChild(particle);
-            }
         }
+    });
+    function createParticles() {
+        const container = document.getElementById('particles-container');
+        if (!container) return;
 
+        const particleCount = 50;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const size = Math.random() * 5 + 1;
+            
+            // เปลี่ยนจาก Template Literal (``) เป็นการต่อสตริง ('')
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            
+            // ตำแหน่งสุ่มแนวนอน
+            particle.style.left = (Math.random() * 100) + '%';
+            
+            const duration = Math.random() * 10 + 10;
+            // เปลี่ยนจาก Template Literal (``) เป็นการต่อสตริง ('')
+            particle.style.animationDuration = duration + 's';
+            
+            const delay = Math.random() * 10;
+            // เปลี่ยนจาก Template Literal (``) เป็นการต่อสตริง ('')
+            particle.style.animationDelay = delay + 's';
+
+            container.appendChild(particle);
+        }
+    }
+
+    // Initialization
+    window.onload = function() {
         pages.forEach(page => {
             page.style.display = 'none';
-            page.style.opacity = 0;
+            page.style.opacity = '0';
         });
-        
+
         createParticles();
         showPage('start-page');
-    </script>
+    };
+
+</script>
 
 </body>
 </html>
-
-
